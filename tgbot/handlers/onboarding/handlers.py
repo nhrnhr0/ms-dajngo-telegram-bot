@@ -13,11 +13,14 @@ from tgbot.handlers.onboarding.keyboards import make_keyboard_for_start_command
 def command_start(update: Update, context: CallbackContext) -> None:
     u, created = User.get_user_and_created(update, context)
 
-    if created:
-        text = static_text.start_created.format(first_name=u.first_name)
+    # if created:
+    #     text = static_text.start_created.format(first_name=u.first_name)
+    # else:
+    #     text = static_text.start_not_created.format(first_name=u.first_name)
+    if u.approved:
+        text = static_text.start_approved.format(first_name=u.first_name)
     else:
-        text = static_text.start_not_created.format(first_name=u.first_name)
-
+        text = static_text.start_not_approved.format(first_name=u.first_name)
     update.message.reply_text(text=text,
                               reply_markup=make_keyboard_for_start_command())
 
